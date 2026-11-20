@@ -1,4 +1,4 @@
-﻿# Pathologic 2 DLSS
+# Pathologic 2 DLSS
 
 A BepInEx 5 plugin for Pathologic 2 (2.1, Unity 2022.3, D3D11) that replaces the TAA pass of Post Processing Stack v1
 with DLSS, either at native resolution (DLAA) or upscaling from a lower one, followed by its own sharpening.
@@ -18,8 +18,10 @@ Tested by the author on an RTX 4080 with a Ryzen 7 9800X3D at 2560x1440:
   The game's TAA costs about 0.1-0.2 ms.
 - **DLSS upscaling did not pay off.** At the same frame rate, lowering the game's "Render scale" with its TAA
   looked better than DLSS upscaling.
-- **DLAA/DLSS still render vegetation and hair detail better** than TAA, and DLAA gives a more natural sharpness
-  to the whole image.
+- **DLAA/DLSS still render vegetation and hair detail better** than TAA, make wet pavement much more stable
+  (no shimmering), and DLAA gives a more natural sharpness to the whole image.
+- **Avoid preset E in the rain.** The CNN model E smooths away most of the rain and the splashes on the ground.
+  K keeps much more of them, although some small splashes still disappear.
 
 `Debug.Benchmark` measures these numbers on your own system (see the settings table).
 
@@ -65,6 +67,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1    # -> <Game>\B
 powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1 -Uninstall
 ```
 Both scripts accept `-GameDir`. The build references the game's managed assemblies and BepInEx from the game folder.
+`build.ps1 -Bundle` also makes `Pathologic2Dlss-<version>-with-dlls.zip` with both native libraries taken from the game folder,
+plus `third-party/THIRD-PARTY-NOTICES.md` and the NVIDIA license.
 
 ## Usage
 Press **F8** in game to switch between DLSS and the game's TAA for comparison (a short message shows the mode).
